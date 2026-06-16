@@ -1,0 +1,16 @@
+[project]
+name = "rozmowa-rekrutacyjna"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.137.1",
+    "langchain>=1.3.9",
+    "langchain-ollama>=1.1.0",
+    "langgraph>=1.2.5",
+    "langgraph-checkpoint-postgres>=3.1.0",
+    "pgvector>=0.4.2",
+    "psycopg[binary]>=3.3.4",
+    "uvicorn>=0.49.0",
+]
