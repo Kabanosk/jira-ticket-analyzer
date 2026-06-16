@@ -2,7 +2,7 @@ from langgraph.graph import StateGraph, START, END
 
 from app.state import TicketState
 from app.nodes import analyze_node, classify_node, recommend_node
-from app.database import checkpointer
+import app.database as database
 
 
 graph = StateGraph(TicketState)
@@ -17,5 +17,5 @@ graph.add_edge("analyze", "recommend")
 graph.add_edge("recommend", END)
 
 def create_graph():
-    compiled_graph = graph.compile(checkpointer=checkpointer)
+    compiled_graph = graph.compile(checkpointer=database.checkpointer)
     return compiled_graph

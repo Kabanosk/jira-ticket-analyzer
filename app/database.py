@@ -34,8 +34,8 @@ embeddings = OllamaEmbeddings(
     model=settings.embeddings_model,
     base_url=settings.embeddings_base_url
 )
-pool: AsyncConnectionPool
-checkpointer: AsyncPostgresSaver
+pool: AsyncConnectionPool | None = None
+checkpointer: AsyncPostgresSaver | None = None
 
 
 async def create_tables():
@@ -49,7 +49,11 @@ async def create_tables():
 
 async def init_db() -> None:
     global pool, checkpointer
-    pool = AsyncConnectionPool(conninfo=settings.database_url)
+    pool = AsyncConnectionPool(
+        conninfo=settings.database_url,
+        open=False,
+        kwargs={"autocommit": True}
+)
     await pool.open()
     checkpointer = AsyncPostgresSaver(pool)
     await checkpointer.setup()
