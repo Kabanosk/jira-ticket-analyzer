@@ -46,6 +46,18 @@ async def create_tables():
         )
 
 
+async def add_ticket_embedding(ticket_id: str, text: str) -> None:
+    vector = await embeddings.aembed_query(text)
+    async with pool.connection() as conn:
+        await conn.execute(
+            """
+            INSERT INTO tickets (ticket_id, text, embedding)
+            VALUES (%s, %s, %s::vector)
+            ON CONFLICT (ticket_id) DO UPDATE SET text = EXCLUDED.text, embedding = EXCLUDED.embedding
+            """,
+            (ticket_id, text, vector)
+        )
+
 
 async def init_db() -> None:
     global pool, checkpointer
