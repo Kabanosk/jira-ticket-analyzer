@@ -1,9 +1,8 @@
-from langgraph.graph import StateGraph, START, END
+from langgraph.graph import END, START, StateGraph
 
-from app.state import TicketState
-from app.nodes import analyze_node, classify_node, recommend_node
 import app.database as database
-
+from app.nodes import analyze_node, classify_node, recommend_node
+from app.state import TicketState
 
 graph = StateGraph(TicketState)
 

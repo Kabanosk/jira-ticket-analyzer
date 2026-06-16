@@ -2,8 +2,7 @@ import asyncio
 
 from loguru import logger
 
-from app.database import init_db, add_ticket_embedding
-
+from app.database import add_ticket_embedding, init_db
 
 TICKETS = [
     {

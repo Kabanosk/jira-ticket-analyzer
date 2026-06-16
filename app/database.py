@@ -1,8 +1,9 @@
-from psycopg_pool import AsyncConnectionPool
+from langchain_ollama import OllamaEmbeddings
 from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+from psycopg_pool import AsyncConnectionPool
 from pydantic import computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from langchain_ollama import OllamaEmbeddings
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")

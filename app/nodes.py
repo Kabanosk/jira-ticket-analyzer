@@ -2,12 +2,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
 
 from app.database import search_similar_tickets, settings
-from app.state import (
-    AnalyzeNodeState,
-    ClassifyNodeState,
-    RecommendNodeState,
-    TicketState,
-)
+from app.state import (AnalyzeNodeState, ClassifyNodeState, RecommendNodeState,
+                       TicketState)
 
 llm = ChatOllama(
     model=settings.llm_model,

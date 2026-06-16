@@ -1,8 +1,8 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 
-from app.database import init_db, close_db
+from app.database import close_db, init_db
 from app.graph import create_graph
 from app.state import InputState
 
