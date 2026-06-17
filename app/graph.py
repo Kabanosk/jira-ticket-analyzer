@@ -15,6 +15,7 @@ graph.add_edge("classify", "analyze")
 graph.add_edge("analyze", "recommend")
 graph.add_edge("recommend", END)
 
+
 def create_graph():
     compiled_graph = graph.compile(checkpointer=database.checkpointer)
     return compiled_graph

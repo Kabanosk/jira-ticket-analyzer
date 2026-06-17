@@ -32,8 +32,7 @@ class Settings(BaseSettings):
 
 settings = Settings()
 embeddings = OllamaEmbeddings(
-    model=settings.embeddings_model,
-    base_url=settings.embeddings_base_url
+    model=settings.embeddings_model, base_url=settings.embeddings_base_url
 )
 pool: AsyncConnectionPool | None = None
 checkpointer: AsyncPostgresSaver | None = None
@@ -56,21 +55,20 @@ async def add_ticket_embedding(ticket_id: str, text: str) -> None:
             VALUES (%s, %s, %s::vector)
             ON CONFLICT (ticket_id) DO UPDATE SET text = EXCLUDED.text, embedding = EXCLUDED.embedding
             """,
-            (ticket_id, text, vector)
+            (ticket_id, text, vector),
         )
 
 
 async def init_db() -> None:
     global pool, checkpointer
     pool = AsyncConnectionPool(
-        conninfo=settings.database_url,
-        open=False,
-        kwargs={"autocommit": True}
-)
+        conninfo=settings.database_url, open=False, kwargs={"autocommit": True}
+    )
     await pool.open()
     checkpointer = AsyncPostgresSaver(pool)
     await checkpointer.setup()
     await create_tables()
+
 
 async def close_db() -> None:
     assert pool is not None, "Pool not initialized"
@@ -81,7 +79,8 @@ async def search_similar_tickets(text: str) -> list[str]:
     embedding: list[float] = await embeddings.aembed_query(text)
     async with pool.connection() as conn:
         cursor = await conn.execute(
-            "SELECT ticket_id FROM tickets ORDER BY embedding <=> %s::vector LIMIT 3", (embedding,)
+            "SELECT ticket_id FROM tickets ORDER BY embedding <=> %s::vector LIMIT 3",
+            (embedding,),
         )
         results = await cursor.fetchall()
     return [ticket_id for (ticket_id,) in results]
